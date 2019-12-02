@@ -1,0 +1,19 @@
+﻿@model WebAtividadeEntrevista.Models.ClienteModel
+@{
+    ViewBag.Title = "Alterar Cliente";
+}
+@section scripts{
+    @Scripts.Render("~/bundles/JqueryMask")
+    <script>
+        $('#CEP').mask('00000-000', { placeholder: "Ex.: 01011-100" });
+        $('#CPF').mask('000.000.000-00', { placeholder: "Ex.: 010.011.111-00" });
+        $('#Telefone').mask('(00) 00000-0000', { placeholder: "Ex.: (11) 2020-3030" });
+        var urlPost = '@Url.Action("Alterar", "Cliente", new { area = "" })';
+        var obj = @Html.Raw(Json.Encode(Model));
+        var urlRetorno = '@Url.Action("Index", "Cliente", new { area = "" })';
+    </script>
+    @Scripts.Render("~/bundles/altClientes")
+
+}
+<h2>@Html.Raw(ViewBag.Title)</h2>
+@Html.Partial("Forms")
