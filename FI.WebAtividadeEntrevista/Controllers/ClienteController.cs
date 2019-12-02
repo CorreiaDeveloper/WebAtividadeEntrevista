@@ -44,7 +44,7 @@ namespace WebAtividadeEntrevista.Controllers
                     return Json(string.Join(Environment.NewLine, "CPF não é valido"));
                 }
 
-                if (!bo.VerificarExistencia(model.CPF))
+                if (bo.VerificarExistencia(model.CPF))
                 {
                     Response.StatusCode = 400;
                     return Json(string.Join(Environment.NewLine, "CPF ja está cadastrado"));
@@ -85,6 +85,24 @@ namespace WebAtividadeEntrevista.Controllers
             }
             else
             {
+                if (!bo.ValidaCPF(model.CPF))
+                {
+                    Response.StatusCode = 400;
+                    return Json(string.Join(Environment.NewLine, "CPF não é valido"));
+                }
+
+                Cliente cliente = bo.Consultar(model.Id);
+
+                if (cliente.CPF != model.CPF)
+                {
+                    if (bo.VerificarExistencia(model.CPF))
+                    {
+                        Response.StatusCode = 400;
+                        return Json(string.Join(Environment.NewLine, "CPF ja está sendo usado"));
+                    }
+                }
+
+
                 bo.Alterar(new Cliente()
                 {
                     Id = model.Id,
